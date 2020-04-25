@@ -48,17 +48,17 @@ module.exports = function () {
   };
   StructureTower.prototype.doRepair = function () {
     const searchTime = 8;
-    if (Game.time % searchTime) return false;
-
+    // if (Game.time % searchTime) return false;
     // 寻找受损建筑物
     if (!this.room._damagedStructure) {
       const damagedStructures = this.room.find(FIND_STRUCTURES, {
-        filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_RAMPART && this.structureType != STRUCTURE_WALL,
-      });
+          filter: (structure) => structure.hits < structure.hitsMax && structure.hits < 750000 && structure.structureType != STRUCTURE_WALL
+      }) // 获取附近的受损物体 && structure.hits < 750000 && structure.structureType != STRUCTURE_WALL
+      damagedStructures.sort((a,b) => a.hits - b.hits) // 按照受损程度排序
 
       // 找到了
       if (damagedStructures.length > 0) {
-        this.room._damagedStructure = this.pos.findClosestByPath(damagedStructures);
+        this.room._damagedStructure = damagedStructures[0];
       } else {
         this.room._damagedStructure = 1;
         return false;

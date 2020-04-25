@@ -13,8 +13,8 @@ module.exports = function () {
     else if (this.doRepair()) {
     }
     // 找不到要维修的建筑就刷墙
-    else if (this.doFillWall()) {
-    }
+    // else if (this.doFillWall()) {
+    // }
   };
 
   /**

@@ -17,7 +17,7 @@ module.exports = () => {
       };
       // console.log(task);
 
-      // thisSpawn.addTask(task);
+       thisSpawn.addTask(task);
     }
   }
   thisSpawn.CheckList();

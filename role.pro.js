@@ -68,7 +68,7 @@ const roles = {
           creep.getEngryFrom(container);
         } else if (creep.store.getUsedCapacity() != 0) {
           // needTarget = Game.getObjectById(targetId);
-          needTarget = Game.getObjectById("5e9b4d55f481718acf9b36c9");
+          needTarget = Game.getObjectById("5e9067e0c49f497fc3bcbc2a");
           creep.transferTo(needTarget, RESOURCE_ENERGY);
         }
       }
@@ -91,6 +91,30 @@ const roles = {
       creep.getEngryFrom(Game.getObjectById(sourceId));
     },
   }),
+
+  miner: () => ({
+    source: (creep) => {
+      let mineral = Game.getObjectById("5bbcb1d440062e4259e933b1")
+      // 检测如果 creep 的剩余生命过少,则跳过采矿阶段
+      if (creep.ticksToLive <= creep.memory.travelTime + 30) return true;
+      else if (creep.store.getFreeCapacity() === 0) return true; // 如果 creep 的矿物储存达到满,则直接跳过采矿阶段
+      
+      
+      const harvestResult = creep.harvest(mineral);
+      // console.log(creep.room.mineral);
+
+      if (harvestResult == ERR_NOT_IN_RANGE) creep.goTo(mineral)
+    },
+    target: (creep) => {
+      
+      const target = creep.room.terminal
+      if (!target) {
+        return false;
+      }
+      if (creep.transfer(target, RESOURCE_LEMERGIUM) == ERR_NOT_IN_RANGE) creep.goTo(target.pos)
+      if (creep.store.getUsedCapacity() === 0) return true
+    }
+  })
 };
 
 /**

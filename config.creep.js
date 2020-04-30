@@ -12,4 +12,5 @@ module.exports = {
   cotainerHarvester2: rolesPro.cotainerHarvester(source.source2, structure.container2),
   transfer: rolesPro.transfer(structure.container2, structure.storage),
   centerTransfer: rolesPro.centerTransfer(structure.storage),
+  miner: rolesPro.miner(),
 };

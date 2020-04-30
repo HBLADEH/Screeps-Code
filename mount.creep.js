@@ -232,7 +232,7 @@ module.exports = function () {
   Creep.prototype._updateConstructionSite = function () {
     const targets = this.room.find(FIND_MY_CONSTRUCTION_SITES);
     if (targets.length > 0) {
-      const target = this.pos.findClosestByRange(targets);
+      const target = targets[0];
       // 把工地的信息存入缓存,用于在建造后验证是否已经完成建造了
       this.room.memory.constructionSiteId = target.id;
       // this.room.memory.constructionSiteType = target.structureType;

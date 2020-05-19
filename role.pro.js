@@ -14,14 +14,14 @@ const roles = {
       creep.getEngryFrom(Game.getObjectById(sourceId));
       const target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
       // if (target) {
-        // if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
-        //   creep.moveTo(target, {
-        //     visualizePathStyle: {
-        //       stroke: "#CC9999",
-        //     },
-        //     reusePath: 20,
-        //   });
-        // }
+      // if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
+      //   creep.moveTo(target, {
+      //     visualizePathStyle: {
+      //       stroke: "#CC9999",
+      //     },
+      //     reusePath: 20,
+      //   });
+      // }
       // }
     },
     target: (creep) => {
@@ -94,27 +94,66 @@ const roles = {
 
   miner: () => ({
     source: (creep) => {
-      let mineral = Game.getObjectById("5bbcb1d440062e4259e933b1")
-      // 检测如果 creep 的剩余生命过少,则跳过采矿阶段
-      if (creep.ticksToLive <= creep.memory.travelTime + 30) return true;
-      else if (creep.store.getFreeCapacity() === 0) return true; // 如果 creep 的矿物储存达到满,则直接跳过采矿阶段
-      
-      
-      const harvestResult = creep.harvest(mineral);
-      // console.log(creep.room.mineral);
+      // console.log(creep.room.name)
+      // 要占领的房间
+      const room = Game.rooms["W31S40"];
+      // 如果该房间不存在就先往房间走
+      if (!room) {
+        creep.moveTo(new RoomPosition(25, 25, "W31S40"));
+      } else {
+        let mineral = Game.getObjectById("5ebd9729ab4a7b4585369edd");
+        // 检测如果 creep 的剩余生命过少,则跳过采矿阶段
+        if (creep.ticksToLive <= 140) return true;
+        else if (creep.store.getFreeCapacity() === 0) return true; // 如果 creep 的矿物储存达到满,则直接跳过采矿阶段
 
-      if (harvestResult == ERR_NOT_IN_RANGE) creep.goTo(mineral)
+        const harvestResult = creep.harvest(mineral);
+
+        // console.log(creep.room.mineral);
+        if (harvestResult == ERR_NOT_IN_RANGE) creep.goTo(mineral);
+      }
+      // let mineral = Game.getObjectById("5bbcb1d440062e4259e933b1")
+      // // 检测如果 creep 的剩余生命过少,则跳过采矿阶段
+      // if (creep.ticksToLive <= creep.memory.travelTime + 30) return true;
+      // else if (creep.store.getFreeCapacity() === 0) return true; // 如果 creep 的矿物储存达到满,则直接跳过采矿阶段
+
+      // const harvestResult = creep.harvest(mineral);
+      // // console.log(creep.room.mineral);
+
+      // if (harvestResult == ERR_NOT_IN_RANGE) creep.goTo(mineral)
     },
     target: (creep) => {
-      
-      const target = creep.room.terminal
-      if (!target) {
-        return false;
+      // 要返回的房间
+      const room = creep.room.name == "W31S41";
+      //  console.log(room)
+      // 如果该房间不存在就先往房间走
+      if (!room) {
+        creep.moveTo(new RoomPosition(25, 25, "W31S41"));
+      } else {
+        const target = creep.room.terminal;
+        if (!target) {
+          return false;
+        }
+        if (creep.transfer(target, "metal") == ERR_NOT_IN_RANGE) creep.goTo(target.pos);
+        if (creep.store.getUsedCapacity() === 0) return true;
       }
-      if (creep.transfer(target, RESOURCE_LEMERGIUM) == ERR_NOT_IN_RANGE) creep.goTo(target.pos)
-      if (creep.store.getUsedCapacity() === 0) return true
-    }
-  })
+    },
+  }),
+
+  /**
+   * 负责暂时预定房间或者是要占领房间的 creeps
+   * @param RoomName 要预定或者占领的房间
+   */
+  claimer: (RoomName) => ({
+    source: (creep) => {
+      const room = creep.room.name == "RoomName";
+      if (!room) {
+        creep.goTo(new RoomPosition(25, 25, RoomName));
+      } else {
+        return true;
+      }
+    },
+    target: (creep) => {},
+  }),
 };
 
 /**

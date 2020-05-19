@@ -162,7 +162,7 @@ module.exports = function () {
       target = Game.getObjectById(creep.memory.fillStructureId);
 
       // tower 的能量大于设定值, 或者当前要填充的容器已满则清楚缓存
-      if ((target.structureType == STRUCTURE_TOWER && target.store[RESOURCE_ENERGY] > 1000) || target.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
+      if ((target.structureType == STRUCTURE_TOWER && target.store[RESOURCE_ENERGY] >= 900) || target.store.getFreeCapacity(RESOURCE_ENERGY) == 0) {
         delete creep.memory.fillStructureId;
         target = undefined;
       }
@@ -258,7 +258,6 @@ module.exports = function () {
     if (actionResult == ERR_NOT_IN_RANGE) {
       this.goTo(this.room.controller.pos);
     }
-
     return true;
   };
 };

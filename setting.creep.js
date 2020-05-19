@@ -31,9 +31,9 @@ const creepSetting = {
     },
   },
   miner: {
-    sum: 1,
+    sum: 2,
     level: 1,
-    com: [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+    com: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     // com: [WORK, WORK, CARRY, MOVE, MOVE, MOVE],
     opt: {
       memory: {

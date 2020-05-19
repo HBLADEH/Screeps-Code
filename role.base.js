@@ -24,7 +24,15 @@ const roles = {
    * 升级虫
    * @param sourceId 要挖的矿 id
    */
-  upgrader: (sourceId) => ({
+  upgrader: (RoomName, sourceId) => ({
+    prepare: (creep) => {
+      const room = creep.room.name == RoomName;
+      if (!room) {
+        creep.goTo(new RoomPosition(25, 25, RoomName));
+      } else {
+        return true;
+      }
+    },
     // 采集能量矿
     source: (creep) => {
       if (creep.store.getFreeCapacity(RESOURCE_ENERGY) === 0) return true;
@@ -41,7 +49,15 @@ const roles = {
   /**
    * 建筑虫
    */
-  builder: (sourceId) => ({
+  builder: (RoomName, sourceId) => ({
+    prepare: (creep) => {
+      const room = creep.room.name == RoomName;
+      if (!room) {
+        creep.goTo(new RoomPosition(25, 25, RoomName));
+      } else {
+        return true;
+      }
+    },
     source: (creep) => {
       // 获取能量
       if (creep.store.getFreeCapacity(RESOURCE_ENERGY) === 0) return true;

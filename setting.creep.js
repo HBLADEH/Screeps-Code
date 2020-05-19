@@ -19,10 +19,20 @@ const creepSetting = {
       },
     },
   },
+  upgrader2: {
+    sum: 1,
+    level: 1,
+    com: [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+    opt: {
+      memory: {
+        role: "upgrader2",
+      },
+    },
+  },
   builder: {
     sum: 1,
     level: 1,
-    com: [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+    com: [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     // com: [WORK, WORK, CARRY, MOVE, MOVE, MOVE],
     opt: {
       memory: {
@@ -89,6 +99,16 @@ const creepSetting = {
     opt: {
       memory: {
         role: "centerTransfer",
+      },
+    },
+  },
+  claimer: {
+    sum: 0,
+    level: 1,
+    com: [CLAIM, CLAIM, MOVE, MOVE],
+    opt: {
+      memory: {
+        role: "claimer",
       },
     },
   },

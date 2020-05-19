@@ -144,13 +144,33 @@ const roles = {
    * @param RoomName 要预定或者占领的房间
    */
   claimer: (RoomName) => ({
-    source: (creep) => {
-      const room = creep.room.name == "RoomName";
+    prepare: (creep) => {
+      const room = creep.room.name == RoomName;
+      // console.log(room);
+      
       if (!room) {
         creep.goTo(new RoomPosition(25, 25, RoomName));
       } else {
         return true;
       }
+      
+    },
+    source: (creep) => {
+      // console.log(12);
+      
+      if (creep.room.controller) {
+        if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+          creep.goTo(creep.room.controller);
+        }
+      }
+      // if (creep.room.controller) {
+      //   let result = creep.signController(creep.room.controller, "PJBOY!!!!!!");
+      //   if (result == ERR_NOT_IN_RANGE) {
+      //     creep.moveTo(creep.room.controller);
+      //   }
+      //   console.log(result);
+        
+      // }
     },
     target: (creep) => {},
   }),

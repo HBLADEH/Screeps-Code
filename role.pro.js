@@ -1,7 +1,7 @@
 /**
  * tranfser 触发后事处理的最小生命
  */
-const TRANSFER_DEATH_LIMIT = 20;
+const TRANSFER_DEATH_LIMIT = 20
 
 const roles = {
   /**
@@ -9,10 +9,10 @@ const roles = {
    */
   transfer: (sourceId, targetId) => ({
     source: (creep) => {
-      if (creep.ticksToLive <= TRANSFER_DEATH_LIMIT) return deathPrepare(creep, targetId);
-      if (creep.store.getUsedCapacity(RESOURCE_ENERGY) > 0) return true;
-      creep.getEngryFrom(Game.getObjectById(sourceId));
-      const target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
+      if (creep.ticksToLive <= TRANSFER_DEATH_LIMIT) return deathPrepare(creep, targetId)
+      if (creep.store.getUsedCapacity(RESOURCE_ENERGY) > 0) return true
+      creep.getEngryFrom(Game.getObjectById(sourceId))
+      const target = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES)
       // if (target) {
       // if (creep.pickup(target) == ERR_NOT_IN_RANGE) {
       //   creep.moveTo(target, {
@@ -25,9 +25,13 @@ const roles = {
       // }
     },
     target: (creep) => {
-      if (creep.ticksToLive <= TRANSFER_DEATH_LIMIT) return deathPrepare(creep, targetId);
-      creep.transferTo(Game.getObjectById(targetId), RESOURCE_ENERGY);
-      if (creep.store.getUsedCapacity() === 0) return true;
+      if (creep.ticksToLive <= TRANSFER_DEATH_LIMIT) return deathPrepare(creep, targetId)
+      var targetres = Game.getObjectById(targetId)
+      let res = creep.transferTo(targetres, RESOURCE_ENERGY)
+      if (targetres.store.getFreeCapacity() <= 3000) {
+        creep.transferTo(creep.room.terminal, RESOURCE_ENERGY)
+      }
+      if (creep.store.getUsedCapacity() === 0) return true
     },
   }),
   /**
@@ -46,30 +50,30 @@ const roles = {
     //   }
     // },
     target: (creep) => {
-      if (creep.ticksToLive <= TRANSFER_DEATH_LIMIT) return deathPrepare(creep, targetId);
+      if (creep.ticksToLive <= TRANSFER_DEATH_LIMIT) return deathPrepare(creep, targetId)
 
-      let needTarget = creep.findNeedEnergyTarget(creep);
+      let needTarget = creep.findNeedEnergyTarget(creep)
       // console.log(needTarget);
 
-      let container = Game.getObjectById("5e917152af620e72b6ce628d");
+      let container = Game.getObjectById('5e917152af620e72b6ce628d')
 
       if (needTarget) {
         if (creep.store.getUsedCapacity() === 0) {
           if (container.store.getUsedCapacity() > creep.store.getCapacity()) {
-            creep.getEngryFrom(container);
+            creep.getEngryFrom(container)
           } else {
-            creep.getEngryFrom(Game.getObjectById(targetId));
+            creep.getEngryFrom(Game.getObjectById(targetId))
           }
         } else {
-          creep.transferTo(needTarget, RESOURCE_ENERGY);
+          creep.transferTo(needTarget, RESOURCE_ENERGY)
         }
       } else {
         if (container.store.getUsedCapacity() > creep.store.getCapacity() && creep.store.getUsedCapacity() === 0) {
-          creep.getEngryFrom(container);
+          creep.getEngryFrom(container)
         } else if (creep.store.getUsedCapacity() != 0) {
           // needTarget = Game.getObjectById(targetId);
-          needTarget = Game.getObjectById("5e9067e0c49f497fc3bcbc2a");
-          creep.transferTo(needTarget, RESOURCE_ENERGY);
+          needTarget = Game.getObjectById('5e9b4d55f481718acf9b36c9')
+          creep.transferTo(needTarget, RESOURCE_ENERGY)
         }
       }
     },
@@ -81,14 +85,14 @@ const roles = {
    */
   cotainerHarvester: (sourceId, targetId) => ({
     prepare: (creep) => {
-      let target = Game.getObjectById(targetId);
-      creep.goTo(target.pos);
+      let target = Game.getObjectById(targetId)
+      creep.goTo(target.pos)
 
-      if (creep.posCheck(creep.pos, target.pos)) return true;
-      else return false;
+      if (creep.posCheck(creep.pos, target.pos)) return true
+      else return false
     },
     target: (creep) => {
-      creep.getEngryFrom(Game.getObjectById(sourceId));
+      creep.getEngryFrom(Game.getObjectById(sourceId))
     },
   }),
 
@@ -96,20 +100,21 @@ const roles = {
     source: (creep) => {
       // console.log(creep.room.name)
       // 要占领的房间
-      const room = Game.rooms["W31S40"];
+      const roomName = 'W28S40'
+      const room = Game.rooms[roomName]
       // 如果该房间不存在就先往房间走
       if (!room) {
-        creep.moveTo(new RoomPosition(25, 25, "W31S40"));
+        creep.moveTo(new RoomPosition(25, 25, roomName))
       } else {
-        let mineral = Game.getObjectById("5ebd9729ab4a7b4585369edd");
+        let mineral = Game.getObjectById('5f7958c6af8a3f5c10fcf868')
         // 检测如果 creep 的剩余生命过少,则跳过采矿阶段
-        if (creep.ticksToLive <= 140) return true;
-        else if (creep.store.getFreeCapacity() === 0) return true; // 如果 creep 的矿物储存达到满,则直接跳过采矿阶段
+        if (creep.ticksToLive <= 300) return true
+        else if (creep.store.getFreeCapacity() === 0) return true // 如果 creep 的矿物储存达到满,则直接跳过采矿阶段
 
-        const harvestResult = creep.harvest(mineral);
+        const harvestResult = creep.harvest(mineral)
 
         // console.log(creep.room.mineral);
-        if (harvestResult == ERR_NOT_IN_RANGE) creep.goTo(mineral);
+        if (harvestResult == ERR_NOT_IN_RANGE) creep.goTo(mineral)
       }
       // let mineral = Game.getObjectById("5bbcb1d440062e4259e933b1")
       // // 检测如果 creep 的剩余生命过少,则跳过采矿阶段
@@ -123,18 +128,18 @@ const roles = {
     },
     target: (creep) => {
       // 要返回的房间
-      const room = creep.room.name == "W31S41";
+      const room = creep.room.name == 'W31S41'
       //  console.log(room)
       // 如果该房间不存在就先往房间走
       if (!room) {
-        creep.moveTo(new RoomPosition(25, 25, "W31S41"));
+        creep.moveTo(new RoomPosition(25, 25, 'W31S41'))
       } else {
-        const target = creep.room.terminal;
+        const target = creep.room.terminal
         if (!target) {
-          return false;
+          return false
         }
-        if (creep.transfer(target, "metal") == ERR_NOT_IN_RANGE) creep.goTo(target.pos);
-        if (creep.store.getUsedCapacity() === 0) return true;
+        if (creep.transfer(target, 'metal') == ERR_NOT_IN_RANGE) creep.goTo(target.pos)
+        if (creep.store.getUsedCapacity() === 0) return true
       }
     },
   }),
@@ -145,22 +150,21 @@ const roles = {
    */
   claimer: (RoomName) => ({
     prepare: (creep) => {
-      const room = creep.room.name == RoomName;
+      const room = creep.room.name == RoomName
       // console.log(room);
-      
+
       if (!room) {
-        creep.goTo(new RoomPosition(25, 25, RoomName));
+        creep.goTo(new RoomPosition(25, 25, RoomName))
       } else {
-        return true;
+        return true
       }
-      
     },
     source: (creep) => {
       // console.log(12);
-      
+
       if (creep.room.controller) {
         if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-          creep.goTo(creep.room.controller);
+          creep.goTo(creep.room.controller)
         }
       }
       // if (creep.room.controller) {
@@ -169,12 +173,12 @@ const roles = {
       //     creep.moveTo(creep.room.controller);
       //   }
       //   console.log(result);
-        
+
       // }
     },
     target: (creep) => {},
   }),
-};
+}
 
 /**
  * 快死时的后事处理
@@ -187,21 +191,21 @@ const roles = {
 function deathPrepare(creep, sourceId) {
   if (creep.store.getUsedCapacity() > 0) {
     for (const resourceType in creep.store) {
-      let target;
+      let target
       // 不是能量就放到 terminal 里
       if (resourceType != RESOURCE_ENERGY && resourceType != RESOURCE_POWER && creep.room.terminal) {
-        target = creep.room.terminal;
+        target = creep.room.terminal
       } else {
         // 否则就放到 storage 或者玩家指定的地方
-        target = sourceId ? Game.getObjectById(sourceId) : creep.room.storage;
+        target = sourceId ? Game.getObjectById(sourceId) : creep.room.storage
       }
       // 转移资源
-      const transferResult = creep.transfer(target, resourceType);
-      if (transferResult == ERR_NOT_IN_RANGE) creep.goTo(target.pos);
+      const transferResult = creep.transfer(target, resourceType)
+      if (transferResult == ERR_NOT_IN_RANGE) creep.goTo(target.pos)
 
-      return false;
+      return false
     }
-  } else creep.suicide();
+  } else creep.suicide()
 }
 
 /**
@@ -210,7 +214,7 @@ function deathPrepare(creep, sourceId) {
  * @param room 要获取物流任务的房间名
  */
 function getRoomTransferTask(room) {
-  const task = room.getRoomTransferTask();
+  const task = room.getRoomTransferTask()
 }
 
-module.exports = roles;
+module.exports = roles

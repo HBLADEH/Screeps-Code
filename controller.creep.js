@@ -20,7 +20,7 @@ module.exports = () => {
       thisSpawn.addTask(task);
     }
   }
-  // thisSpawn.CheckList();
+//   thisSpawn.CheckList();
 
   // 定期校验队列
   if (Game.time % 3000 == 0) {

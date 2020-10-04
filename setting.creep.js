@@ -12,7 +12,7 @@ const creepSetting = {
   upgrader: {
     sum: 1,
     level: 1,
-    com: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+    com: [WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
     opt: {
       memory: {
         role: "upgrader",
@@ -41,7 +41,7 @@ const creepSetting = {
     },
   },
   miner: {
-    sum: 2,
+    sum: 1,
     level: 1,
     com: [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
     // com: [WORK, WORK, CARRY, MOVE, MOVE, MOVE],
